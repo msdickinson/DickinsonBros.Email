@@ -43,7 +43,7 @@ namespace DickinsonBros.Email.Runner
                 var telemetryService = provider.GetRequiredService<ITelemetryService>();
                 var emailService = provider.GetRequiredService<IEmailService>();
 
-                var email = "testEmail@TestEmail.com";
+                var email = "marksamdickinson@gmail.com";
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("Test", email));
                 message.To.Add(new MailboxAddress("Test", email));
@@ -57,7 +57,7 @@ namespace DickinsonBros.Email.Runner
                 await emailService.SendAsync(message).ConfigureAwait(false);
 
                 Console.WriteLine("Flush Telemetry");
-                await telemetryService.Flush().ConfigureAwait(false);
+                await telemetryService.FlushAsync().ConfigureAwait(false);
 
                 applicationLifetime.StopApplication();
             }
