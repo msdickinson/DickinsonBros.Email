@@ -1,4 +1,5 @@
-﻿using DickinsonBros.Email.Extensions;
+﻿using DickinsonBros.Email.Abstractions;
+using DickinsonBros.Email.Extensions;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
