@@ -120,6 +120,6 @@ services.Configure<EmailServiceOptions>(_configuration.GetSection(nameof(EmailSe
 using (var provider = services.BuildServiceProvider())
 {
   var telemetryService = provider.GetRequiredService<ITelemetryService>();
-  var sqlService = provider.GetRequiredService<IEmailService>();
+  var emailService = provider.GetRequiredService<IEmailService>();
 }
 ```
