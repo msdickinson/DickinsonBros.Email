@@ -9,7 +9,7 @@ Email Service
 Features
 * Sends email to file and/or web
 * Logs for all successful and exceptional runs
-* Telemetry for all calls
+* Telemetry for all calls (SMTP)
 
 <a href="https://dev.azure.com/marksamdickinson/DickinsonBros/_build?definitionScope=%5CDickinsonBros.Email">Builds</a>
 
@@ -36,7 +36,7 @@ await telemetryService.Flush().ConfigureAwait(false);
     info: DickinsonBros.Email.EmailService[1]
           EmailService.SaveAsync
           Subject: Test Runner Email Subject
-          ElapsedMilliseconds: 5191
+          ElapsedMilliseconds: 2078
 
     info: DickinsonBros.Email.EmailService[1]
           EmailService.SendSMTPAsync
