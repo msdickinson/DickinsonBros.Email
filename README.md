@@ -33,7 +33,16 @@ Console.WriteLine("Flush Telemetry");
 await telemetryService.Flush().ConfigureAwait(false);
 ```
 
-    Console Log
+    info: DickinsonBros.Email.EmailService[1]
+          EmailService.SaveAsync
+          Subject: Test Runner Email Subject
+          ElapsedMilliseconds: 5191
+
+    info: DickinsonBros.Email.EmailService[1]
+          EmailService.SendSMTPAsync
+          Subject: Test Runner Email Subject
+          ElapsedMilliseconds: 1253
+
     Flush Telemetry
 ![Alt text](https://raw.githubusercontent.com/msdickinson/DickinsonBros.Email/develop/TelemetryEmailSample.PNG)
 
