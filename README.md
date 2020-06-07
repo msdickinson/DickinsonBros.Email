@@ -30,7 +30,7 @@ message.Body = new TextPart("plain")
 await emailService.SendAsync(message).ConfigureAwait(false);
 
 Console.WriteLine("Flush Telemetry");
-await telemetryService.Flush().ConfigureAwait(false);
+await telemetryService.FlushAsync().ConfigureAwait(false);
 ```
 
     info: DickinsonBros.Email.EmailService[1]
