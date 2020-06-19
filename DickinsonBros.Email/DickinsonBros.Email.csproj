@@ -20,14 +20,14 @@
 
 
   <ItemGroup>
-    <PackageReference Include="DickinsonBros.Email.Abstractions" Version="1.0.0" />
-    <PackageReference Include="DickinsonBros.DateTime.Abstractions" Version="1.0.0" />
-    <PackageReference Include="DickinsonBros.Logger.Abstractions" Version="1.0.0" />
-    <PackageReference Include="DickinsonBros.Redactor.Abstractions" Version="1.0.0" />
-    <PackageReference Include="DickinsonBros.Stopwatch.Abstractions" Version="1.0.0" />
-    <PackageReference Include="DickinsonBros.Telemetry.Abstractions" Version="4.0.0" />
+    <PackageReference Include="DickinsonBros.Email.Abstractions" Version="2.0.0" />
+    <PackageReference Include="DickinsonBros.DateTime.Abstractions" Version="2.0.0" />
+    <PackageReference Include="DickinsonBros.Logger.Abstractions" Version="2.0.0" />
+    <PackageReference Include="DickinsonBros.Redactor.Abstractions" Version="2.0.0" />
+    <PackageReference Include="DickinsonBros.Stopwatch.Abstractions" Version="2.0.0" />
+    <PackageReference Include="DickinsonBros.Telemetry.Abstractions" Version="5.0.0" />
     <PackageReference Include="MailKit" Version="2.7.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.5" />
   </ItemGroup>
 
 

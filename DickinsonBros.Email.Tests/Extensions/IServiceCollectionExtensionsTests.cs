@@ -11,7 +11,7 @@ namespace DickinsonBros.Email.Tests.Extensions
     public class IServiceCollectionExtensionsTests
     {
         [TestMethod]
-        public void AddSQLService_Should_Succeed()
+        public void AddEmailService_Should_Succeed()
         {
             // Arrange
             var serviceCollection = new ServiceCollection();
