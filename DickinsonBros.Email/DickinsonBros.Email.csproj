@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Configurations>Debug;Release</Configurations>
-    <Version>2.0.0</Version>
+    <VersionPrefix>3.0.0</VersionPrefix>
     <Authors>Mark Dickinson</Authors>
     <Company>DickinsonBros</Company>
     <RepositoryUrl>https://github.com/msdickinson/DickinsonBros.Email.git</RepositoryUrl>
@@ -20,14 +20,17 @@
 
 
   <ItemGroup>
-    <PackageReference Include="DickinsonBros.Email.Abstractions" Version="2.0.0" />
-    <PackageReference Include="DickinsonBros.DateTime.Abstractions" Version="2.0.0" />
-    <PackageReference Include="DickinsonBros.Logger.Abstractions" Version="2.0.0" />
-    <PackageReference Include="DickinsonBros.Redactor.Abstractions" Version="2.0.0" />
-    <PackageReference Include="DickinsonBros.Stopwatch.Abstractions" Version="2.0.0" />
-    <PackageReference Include="DickinsonBros.Telemetry.Abstractions" Version="5.0.0" />
-    <PackageReference Include="MailKit" Version="2.7.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.5" />
+    <PackageReference Include="DickinsonBros.Encryption.Certificate.Abstractions" Version="[4.1.0,5.0.0)" />
+    <PackageReference Include="DickinsonBros.Email.Abstractions" Version="[3.0.0,4.0.0)" />
+    <PackageReference Include="DickinsonBros.DateTime.Abstractions" Version="[2.0.0,3.0.0)" />
+    <PackageReference Include="DickinsonBros.Logger.Abstractions" Version="[2.0.0,3.0.0)" />
+    <PackageReference Include="DickinsonBros.Redactor.Abstractions" Version="[2.0.0,3.0.0)" />
+    <PackageReference Include="DickinsonBros.Stopwatch.Abstractions" Version="[2.0.0,3.0.0)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="[3.1.8,4.0.0)" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="[3.1.8,4.0.0)" />
+    <PackageReference Include="DickinsonBros.Telemetry.Abstractions" Version="[5.1.0,6.0.0)" />
+    <PackageReference Include="MailKit" Version="[2.9.0,3.0.0)" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="[3.1.8,4.0.0)" />
   </ItemGroup>
 
 

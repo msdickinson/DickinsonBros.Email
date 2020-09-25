@@ -1,7 +1,9 @@
 ﻿using DickinsonBros.Email.Abstractions;
+using DickinsonBros.Email.Configurators;
 using DickinsonBros.Email.Extensions;
-using MailKit.Net.Smtp;
+using DickinsonBros.Email.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
@@ -25,8 +27,8 @@ namespace DickinsonBros.Email.Tests.Extensions
                                            serviceDefinition.ImplementationType == typeof(EmailService) &&
                                            serviceDefinition.Lifetime == ServiceLifetime.Singleton));
 
-            Assert.IsTrue(serviceCollection.Any(serviceDefinition => serviceDefinition.ServiceType == typeof(ISmtpClient) &&
-                               serviceDefinition.ImplementationType == typeof(SmtpClient) &&
+            Assert.IsTrue(serviceCollection.Any(serviceDefinition => serviceDefinition.ServiceType == typeof(IConfigureOptions<EmailServiceOptions>) &&
+                               serviceDefinition.ImplementationType == typeof(EmailServiceOptionsConfigurator) &&
                                serviceDefinition.Lifetime == ServiceLifetime.Singleton));
         }
     }
