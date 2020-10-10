@@ -1,11 +1,12 @@
 ﻿using DickinsonBros.DateTime.Abstractions;
 using DickinsonBros.Email.Abstractions;
 using DickinsonBros.Email.Models;
+using DickinsonBros.Guid.Abstractions;
 using DickinsonBros.Logger.Abstractions;
-using DickinsonBros.Redactor.Abstractions;
 using DickinsonBros.Stopwatch.Abstractions;
 using DickinsonBros.Telemetry.Abstractions;
 using DickinsonBros.Telemetry.Abstractions.Models;
+using DnsClient;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,40 +17,104 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.IO.Abstractions;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DickinsonBros.Email
 {
-    [ExcludeFromCodeCoverage]
     public class EmailService : IEmailService
     {
         internal readonly EmailServiceOptions _emailServiceOptions;
         internal readonly IServiceProvider _serviceProvider;
+        internal readonly IGuidService _guidService;
         internal readonly ILoggingService<EmailService> _logger;
         internal readonly TimeSpan DefaultBulkCopyTimeout = TimeSpan.FromMinutes(5);
         internal readonly int DefaultBatchSize = 10000;
         internal readonly ITelemetryService _telemetryService;
         internal readonly IDateTimeService _dateTimeService;
-        internal readonly IRedactorService _redactorService;
+        internal readonly ILookupClient _lookupClient;
+        internal readonly IFileSystem _fileSystem;
 
         public EmailService
         (
             IOptions<EmailServiceOptions> emailServiceOptions,
             IServiceProvider serviceProvider,
+            IGuidService guidService,
             ILoggingService<EmailService> logger,
-            IRedactorService redactorService,
             ITelemetryService telemetryService,
-            IDateTimeService dateTimeService
+            IDateTimeService dateTimeService,
+            ILookupClient lookupClient,
+            IFileSystem fileSystem
         )
         {
             _emailServiceOptions = emailServiceOptions.Value;
             _serviceProvider = serviceProvider;
+            _guidService = guidService;
             _logger = logger;
             _telemetryService = telemetryService;
-            _redactorService = redactorService;
             _dateTimeService = dateTimeService;
+            _lookupClient = lookupClient;
+            _fileSystem = fileSystem;
         }
 
+        [ExcludeFromCodeCoverage]
+        public bool IsValidEmailFormat(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                return Regex.IsMatch(email,
+                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                    RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                return false;
+            }
+        }
+        public async Task<bool> ValidateEmailDomain(string emailDomain)
+        {
+            var methodIdentifier = $"{nameof(EmailService)}.{nameof(ValidateEmailDomain)}";
+
+            try
+            {
+                var isValidEmailDomain = (await _lookupClient.QueryAsync(emailDomain, QueryType.MX).ConfigureAwait(false)).Answers.MxRecords().Any();
+
+                var logIsVaild = isValidEmailDomain ? "Domain is valid" : "Domain is invalid";
+                _logger.LogInformationRedacted
+                (
+                    $"{methodIdentifier} {logIsVaild}",
+                    new Dictionary<string, object>
+                    {
+                    { nameof(emailDomain),emailDomain },
+                    { nameof(isValidEmailDomain), isValidEmailDomain }
+                    }
+                );
+
+                return isValidEmailDomain;
+            }
+            catch(Exception ex)
+            {
+               _logger.LogErrorRedacted
+               (
+                   $"Unhandled exception {methodIdentifier}",
+                   ex,
+                   new Dictionary<string, object>
+                   {
+                        { nameof(emailDomain), emailDomain },
+                   }
+               );
+
+               return true;
+            }
+
+         
+
+        }
 
         public async Task SendAsync(MimeMessage message)
         {
@@ -74,17 +139,17 @@ namespace DickinsonBros.Email
 
             var telemetry = new TelemetryData
             {
-                Name = $"{message.Subject}",
+                Name = message.Subject,
                 DateTime = _dateTimeService.GetDateTimeUTC(),
                 TelemetryType = TelemetryType.Email
             };
 
             try
             {
+                stopwatchService.Start();
                 var smtpClient = _serviceProvider.GetRequiredService<ISmtpClient>();
                 smtpClient.Timeout = _emailServiceOptions.SmtpTimeoutSeconds * 1000;
 
-                stopwatchService.Start();
                 await smtpClient.ConnectAsync(_emailServiceOptions.Host, _emailServiceOptions.Port, SecureSocketOptions.StartTls).ConfigureAwait(false);
                 await smtpClient.AuthenticateAsync(_emailServiceOptions.UserName, _emailServiceOptions.Password).ConfigureAwait(false);
                 await smtpClient.SendAsync(message).ConfigureAwait(false);
@@ -94,7 +159,7 @@ namespace DickinsonBros.Email
 
                 _logger.LogInformationRedacted
                 (
-                    $"{methodIdentifier}",
+                    methodIdentifier,
                     new Dictionary<string, object>
                     {
                         { nameof(message.Subject), message.Subject },
@@ -136,11 +201,10 @@ namespace DickinsonBros.Email
 
             try
             {
-                var path = Path.Combine(_emailServiceOptions.SaveDirectory, System.Guid.NewGuid().ToString() + ".eml");
-                Stream stream;
-
                 stopwatchService.Start();
-                stream = File.Open(path, FileMode.CreateNew);
+
+                var path = _fileSystem.Path.Combine(_emailServiceOptions.SaveDirectory, _guidService.NewGuid().ToString() + ".eml");
+                var stream = _fileSystem.File.Open(path, FileMode.CreateNew);
                 using (stream)
                 {
                     using var filtered = new FilteredStream(stream);
@@ -156,7 +220,7 @@ namespace DickinsonBros.Email
 
                 _logger.LogInformationRedacted
                 (
-                    $"{methodIdentifier}",
+                    methodIdentifier,
                     new Dictionary<string, object>
                     {
                         { nameof(message.Subject), message.Subject },
