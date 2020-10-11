@@ -9,6 +9,8 @@ Email Service
 Features
 * Sends email to file and/or web
 * Logs for all successful and exceptional runs
+* IsValidEmailFormat
+* ValidateEmailDomain
 * Telemetry for all calls (SMTP)
 
 <a href="https://dev.azure.com/marksamdickinson/DickinsonBros/_build?definitionScope=%5CDickinsonBros.Email">Builds</a>

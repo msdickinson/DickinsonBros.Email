@@ -3,6 +3,7 @@ using DickinsonBros.Encryption.Certificate.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace DickinsonBros.Email.Configurators
 {
@@ -25,7 +26,11 @@ namespace DickinsonBros.Email.Configurators
 
                 configuration.Bind($"{nameof(EmailServiceOptions)}", options);
 
-                options.Password = configurationEncryptionService.Decrypt(emailServiceOptions.Password);
+                //This is an optional Pram
+                if(!String.IsNullOrWhiteSpace(emailServiceOptions.Password))
+                {
+                    options.Password = configurationEncryptionService.Decrypt(emailServiceOptions.Password);
+                }
             }
         }
     }

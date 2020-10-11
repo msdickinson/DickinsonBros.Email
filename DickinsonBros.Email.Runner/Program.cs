@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using MimeKit;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DickinsonBros.Email.Runner
@@ -47,6 +48,16 @@ namespace DickinsonBros.Email.Runner
                 {
                     Text = $@"Test Runner Email Body"
                 };
+                var emailUri = new Uri($"mailto:{email}");
+                var emailHost = emailUri.Host;
+
+                var vaildEmailFormat = emailService.IsValidEmailFormat(email);
+                Console.WriteLine($"Vaild Email Format: {vaildEmailFormat}");
+
+                var emailDomain = email.Split("@").Last();
+
+                var validEmailDomain = await emailService.ValidateEmailDomain(emailDomain).ConfigureAwait(false);
+                Console.WriteLine($"Vaild Email Domain: {validEmailDomain}");
 
                 await emailService.SendAsync(message).ConfigureAwait(false);
 
