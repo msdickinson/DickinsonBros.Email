@@ -30,3 +30,5 @@ steps:
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
     codeCoverageEnabled: true
+    runSettingsFile: 'DickinsonBros.Email'
+
