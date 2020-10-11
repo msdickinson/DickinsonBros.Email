@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="DickinsonBros.Encryption.Certificate.Abstractions" Version="[4.1.0,5.0.0)" />
-    <PackageReference Include="DickinsonBros.Email.Abstractions" Version="3.0.0--alpha20201008-100154" />
+    <PackageReference Include="DickinsonBros.Email.Abstractions" Version="3.0.0" />
     <PackageReference Include="DickinsonBros.DateTime.Abstractions" Version="[2.0.0,3.0.0)" />
     <PackageReference Include="DickinsonBros.Guid.Abstractions" Version="2.0.0" />
     <PackageReference Include="DickinsonBros.Logger.Abstractions" Version="[2.0.0,3.0.0)" />
