@@ -23,12 +23,13 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
-    
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
     projects: '**/*.csproj'
     configuration: '$(buildConfiguration)'
+
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
@@ -37,7 +38,9 @@ steps:
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    
+    codeCoverageEnabled: true
+    runSettingsFile: 'DickinsonBros.Email.runsettings'
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
