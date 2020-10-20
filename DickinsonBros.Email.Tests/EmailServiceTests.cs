@@ -178,7 +178,7 @@ namespace DickinsonBros.Email.Tests
                     var uutConcrete = (EmailService)uut;
 
                     //Act
-                    var observed = await uutConcrete.ValidateEmailDomain(emailDomain).ConfigureAwait(false);
+                    var observed = await uutConcrete.ValidateEmailDomainAsync(emailDomain).ConfigureAwait(false);
 
                     //Assert
                     Assert.IsFalse(observed);
@@ -230,7 +230,7 @@ namespace DickinsonBros.Email.Tests
                     var uutConcrete = (EmailService)uut;
 
                     //Act
-                    var observed = await uutConcrete.ValidateEmailDomain(emailDomain).ConfigureAwait(false);
+                    var observed = await uutConcrete.ValidateEmailDomainAsync(emailDomain).ConfigureAwait(false);
 
                     //Assert
                     Assert.IsTrue(observed);
@@ -282,7 +282,7 @@ namespace DickinsonBros.Email.Tests
                     var uutConcrete = (EmailService)uut;
 
                     //Act
-                    var observed = await uutConcrete.ValidateEmailDomain(emailDomain).ConfigureAwait(false);
+                    var observed = await uutConcrete.ValidateEmailDomainAsync(emailDomain).ConfigureAwait(false);
 
                     //Assert
                     Assert.IsFalse(observed);
@@ -301,7 +301,7 @@ namespace DickinsonBros.Email.Tests
                     //Setup
                     var emailDomain = "SampleEmailDomain";
                     var exception = new Exception("SampleException");
-                    var methodIdentifier = $"{nameof(EmailService)}.{nameof(EmailService.ValidateEmailDomain)}";
+                    var methodIdentifier = $"{nameof(EmailService)}.{nameof(EmailService.ValidateEmailDomainAsync)}";
 
                     //--IDnsQueryResponse
                     var mxRecordsExpected = new MxRecord[] { };
@@ -339,7 +339,7 @@ namespace DickinsonBros.Email.Tests
 
                     //Act
              
-                    await uutConcrete.ValidateEmailDomain(emailDomain).ConfigureAwait(false);
+                    await uutConcrete.ValidateEmailDomainAsync(emailDomain).ConfigureAwait(false);
 
 
                     //Assert
@@ -371,7 +371,7 @@ namespace DickinsonBros.Email.Tests
                     //Setup
                     var emailDomain = "SampleEmailDomain";
                     var exception = new Exception("SampleException");
-                    var methodIdentifier = $"{nameof(EmailService)}.{nameof(EmailService.ValidateEmailDomain)}";
+                    var methodIdentifier = $"{nameof(EmailService)}.{nameof(EmailService.ValidateEmailDomainAsync)}";
 
                     //--IDnsQueryResponse
                     var mxRecordsExpected = new MxRecord[] { };
@@ -408,7 +408,7 @@ namespace DickinsonBros.Email.Tests
                     var uutConcrete = (EmailService)uut;
 
                     //Act
-                    var observed = await uutConcrete.ValidateEmailDomain(emailDomain).ConfigureAwait(false);
+                    var observed = await uutConcrete.ValidateEmailDomainAsync(emailDomain).ConfigureAwait(false);
 
 
                     //Assert
