@@ -76,9 +76,9 @@ namespace DickinsonBros.Email
                 return false;
             }
         }
-        public async Task<bool> ValidateEmailDomain(string emailDomain)
+        public async Task<bool> ValidateEmailDomainAsync(string emailDomain)
         {
-            var methodIdentifier = $"{nameof(EmailService)}.{nameof(ValidateEmailDomain)}";
+            var methodIdentifier = $"{nameof(EmailService)}.{nameof(ValidateEmailDomainAsync)}";
 
             try
             {

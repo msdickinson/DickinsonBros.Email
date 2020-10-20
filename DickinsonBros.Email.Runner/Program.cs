@@ -3,6 +3,7 @@ using DickinsonBros.Email.Abstractions;
 using DickinsonBros.Email.Extensions;
 using DickinsonBros.Email.Runner.Services;
 using DickinsonBros.Encryption.Certificate.Extensions;
+using DickinsonBros.Guid.Extensions;
 using DickinsonBros.Logger.Extensions;
 using DickinsonBros.Redactor.Extensions;
 using DickinsonBros.Stopwatch.Extensions;
@@ -56,7 +57,7 @@ namespace DickinsonBros.Email.Runner
 
                 var emailDomain = email.Split("@").Last();
 
-                var validEmailDomain = await emailService.ValidateEmailDomain(emailDomain).ConfigureAwait(false);
+                var validEmailDomain = await emailService.ValidateEmailDomainAsync(emailDomain).ConfigureAwait(false);
                 Console.WriteLine($"Vaild Email Domain: {validEmailDomain}");
 
                 await emailService.SendAsync(message).ConfigureAwait(false);
@@ -80,6 +81,7 @@ namespace DickinsonBros.Email.Runner
 
             services.AddConfigurationEncryptionService();
             services.AddDateTimeService();
+            services.AddGuidService();
             services.AddStopwatchService();
             services.AddLoggingService();
             services.AddRedactorService();
